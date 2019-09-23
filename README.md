@@ -1,2 +1,2 @@
-# AI.basis-project1
+# AI.basic
 Robot tìm đường / Path-finding robot
