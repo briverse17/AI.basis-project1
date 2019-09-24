@@ -29,6 +29,7 @@ Deadline của ngày cuối: 23h55
     - Trúc: BFS, DFS
     - Thìn: Greedy, A*
     - Vũ: UCS, đồ họa (chọn 1 thư viện)
+    * Deadline đặt câu hỏi: 20h00, 26/09
 30/09 - 06/10:
 
 07/10 - 14/10:
