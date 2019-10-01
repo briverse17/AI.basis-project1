@@ -31,7 +31,11 @@ Deadline của ngày cuối: 23h55
     - Vũ: UCS, đồ họa (chọn 1 thư viện)
     * Deadline đặt câu hỏi: 20h00, 26/09
 30/09 - 06/10:
-
+    - Mỗi người vẽ 3 map 200x200px: map trống, map có 1 vật, map có 3 vật (hõi Vũ)
+    - Mỗi người code 1 thuật toán, nếu có thể thì làm thêm 1 thuật toán đã tìm hiểu
+      + UCS (Vũ)
+      + Trúc (BFS)
+      + Thìn (Greedy)
 07/10 - 14/10:
 
 14/10 - 18/10:
