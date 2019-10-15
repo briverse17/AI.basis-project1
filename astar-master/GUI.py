@@ -40,8 +40,6 @@ class GUI():
         matrix = self.map
         root = self.start
         des = self.goal
-        print(self.start, self.goal)
-        print(root, des)
         self.screen.fill(BACKGROUND_COLOR)
 
         x = 0
