@@ -47,7 +47,7 @@ class ARAStar():
                 path = self.trackingPath()
                 return path
             self.close_set.add(current)
-            neighbors = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
+            neighbors = [(-1, 0), (0, 1), (1, 0), (0, -1)]
             for direction in neighbors:
                 neighbor = (current[0] + direction[0], current[1] + direction[1])
                 if not self.isValid(neighbor):
@@ -119,4 +119,4 @@ class ARAStar():
         self.de_epsilon = de_epsilon
         self.map, self.map_width, self.map_height, self.start, self.goal = readFromFile(input_name)
         self.minPath = self.araStar()
-        writeToFile(output_name, self.map, self.map_width, self.map_height, self.start, self.goal, self.minStep, self.minPath)
+    #    writeToFile(output_name, self.map, self.map_width, self.map_height, self.start, self.goal, self.minStep, self.minPath)

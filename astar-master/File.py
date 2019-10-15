@@ -11,15 +11,13 @@ def readFromFile(file_name):
 
     # Dòng 2: 2 cặp toạ độ (sX,sY),(gX,gY)
     point = fin.readline().strip("\n").split(",")
-    print(point)
-    start = (height - int(point[1]) - 1, int(point[0]))
-    goal = (height - int(point[3]) - 1, int(point[2]))
-    print(start, goal)
+    start = (height - int(point[1]), int(point[0]))
+    goal = (height - int(point[3]), int(point[2]))
     # Dòng 3: Số lượng chướng ngại vật (đa giác) n
     nObj = int(fin.readline())
 
     # n dòng tiếp theo: Dòng thứ i: Chứa thông tin đa giác thứ i: Cứ 2 cặp số là tọa độ của một đỉnh.
-    map = np.zeros((width, height))  # ma trận bản đồ
+    map = np.zeros((height, width))  # ma trận bản đồ
 
     for i in range(nObj):
         tmp = fin.readline().strip("\n").split(",")
@@ -41,27 +39,27 @@ def readFromFile(file_name):
     return map, width, height, start, goal
 
 
-def writeToFile(file_name, map, map_width, map_height, start, goal, step, path):
-    fout = open(file_name, "w")
-    fout.write("%s\n" % str(step))
-    if step != -1:
-        for coor in path:
-            fout.write(str(coor) + ' ')
-        fout.write("\n")
-        mapFile = map
-        for i in range(map_height):
-            for j in range(map_width):
-                if map[i][j] == 1:
-                    mapFile[i][j] = 'o'
-                elif map[i][j] == 0:
-                    mapFile[i][j] = '-'
-        for i, j in path:
-            mapFile[i][j] = 'x'
-        mapFile[start[0]][start[1]] = 'S'
-        mapFile[goal[0]][goal[1]] = 'G'
-        for row in mapFile:
-            for i in row:
-                fout.write("%s " % i)
-            fout.write("\n")
+# def writeToFile(file_name, map, map_width, map_height, start, goal, step, path):
+#     fout = open(file_name, "w")
+#     fout.write("%s\n" % str(step))
+#     if step != -1:
+#         for coor in path:
+#             fout.write(str(coor) + ' ')
+#         fout.write("\n")
+#         mapFile = map
+#         for i in range(map_height):
+#             for j in range(map_width):
+#                 if map[i][j] == 1:
+#                     mapFile[i][j] = 'o'
+#                 elif map[i][j] == 0:
+#                     mapFile[i][j] = '-'
+#         for i, j in path:
+#             mapFile[i][j] = 'x'
+#         mapFile[start[0]][start[1]] = 'S'
+#         mapFile[goal[0]][goal[1]] = 'G'
+#         for row in mapFile:
+#             for i in row:
+#                 fout.write("%s " % i)
+#             fout.write("\n")
     
-    fout.close()
+#     fout.close()
