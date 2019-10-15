@@ -37,8 +37,7 @@ class AStar:
 
     def isValid(self, neighbor):
         map = self.map
-        print(neighbor, self.map_width, self.map_height)
-        return (0 <= neighbor[0] < 18) and (0 <= neighbor[1] < self.map_height) and (map[neighbor[0]][neighbor[1]] == 0)
+        return (0 <= neighbor[0] < map.shape[0]) and (0 <= neighbor[1] < map.shape[1]) and (map[neighbor[0]][neighbor[1]] == 0)
 
     def aStar(self, gui):
         self.open_set.put(self.start, 0)
@@ -59,7 +58,7 @@ class AStar:
                 if neighbor in self.close_set and self.g_score[current] + 1 >= self.g_score[neighbor]:
                     continue
                 gui.updateMap(neighbor, NEIGHBOR_COLOR)
-                if neighbor not in self.g_score or self.g_score[current] + 1< self.g_score[neighbor]:
+                if neighbor not in self.g_score or self.g_score[current] + 1 < self.g_score[neighbor]:
                     self.came_from[neighbor] = current
                     self.g_score[neighbor] = self.g_score[current] + 1
                     self.f_score[neighbor] = self.g_score[neighbor] + heuristic(neighbor, self.goal)
@@ -73,7 +72,7 @@ class AStar:
         START_TIME = time.clock()
         self.map, self.map_width, self.map_height, self.start, self.goal = readFromFile(input_name)
         self.minPath = self.aStar(gui)
-        writeToFile(output_name, self.map, self.map_width, self.map_height, self.start, self.goal, self.minStep, self.minPath)
+ #       writeToFile(output_name, self.map, self.map_width, self.map_height, self.start, self.goal, self.minStep, self.minPath)
 
         if self.minStep == -1:
             Notification().alert("Notification", "Path not found!")
