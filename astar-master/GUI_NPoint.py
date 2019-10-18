@@ -79,7 +79,7 @@ class GUI_NPoint():
         sum_delay = sum_delay + DELAY_TIME
 
     def drawPath(self, path):
-        for pos in reversed(path):
+        for pos in path:
             self.updateMap(pos, START_GOAL_COLOR)
 
     def ready(self):

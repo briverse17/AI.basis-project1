@@ -39,6 +39,12 @@ class AStarNPoint:
         return (0 <= neighbor[0] < map.shape[0]) and (0 <= neighbor[1] < map.shape[1]) and (map[neighbor[0]][neighbor[1]] == 0)
 
     def aStar(self, curr, next, gui):
+        self.g_score = {}
+        self.f_score = {}
+        self.close_set = set()
+        self.open_set = PriorityQueue()
+        self.came_from = {}  # father
+
         self.open_set.put(curr, 0)
         self.g_score[curr] = 0
         self.f_score[curr] = self.g_score[curr] + heuristic(curr, next)
@@ -68,10 +74,8 @@ class AStarNPoint:
         self.pick_up_set = self.pick_up.copy()
         curr = self.start
         next = self.pick_up_set.pop(self.findNextPoint(curr))
-        a = self.aStar(curr, next, gui)
         
-        self.minPath = self.minPath + a
-        print(self.minPath)
+        self.minPath = self.minPath + self.aStar(curr, next, gui)
 
         while self.pick_up_set:
             curr = next
@@ -83,13 +87,11 @@ class AStarNPoint:
         next = self.goal
         self.came_from = {}
         self.minPath = self.minPath + self.aStar(curr, next, gui)
-        print(self.minPath)
         
         return self.minPath
 
     def findNextPoint(self, current):
         dis = []
-        
         for i in range(len(self.pick_up_set)):
             dis.append(heuristic(current, self.pick_up_set[i]))
         return dis.index(min(dis))
@@ -104,7 +106,6 @@ class AStarNPoint:
         if self.minStep == -1:
             Notification().alert("Notification", "Path not found!")
         else:
-            print(self.minPath)
             gui.drawPath(self.minPath)
             Notification().alert("Time: ",
                                  repr(time.clock() - START_TIME - sum_delay) + "s\nStep: " + repr(self.minStep))
