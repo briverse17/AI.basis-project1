@@ -6,14 +6,19 @@ def readFromFile(file_name):
     fin = open(file_name, "r")
     # Dòng 1: Kích thước [w,h] của bản đồ
     size = fin.readline().strip("\n").split(",")
-    width = int(size[0])
-    height = int(size[1])
+    width = int(size[0]) + 1
+    height = int(size[1]) + 1
 
-    # Dòng 2: 2 cặp toạ độ (sX,sY),(gX,gY)
+    # Dòng 2: 2 cặp toạ độ (sX,sY),(gX,gY), và các điểm pick_up
     point = fin.readline().strip("\n").split(",")
-    start = (height - int(point[1]), int(point[0]))
-    goal = (height - int(point[3]), int(point[2]))
-    # Dòng 3: Số lượng chướng ngại vật (đa giác) n
+    start = (height - int(point[1]) - 1, int(point[0]))
+    goal = (height - int(point[3]) - 1, int(point[2]))
+    pick_up = []
+    i = 4
+    while(i != len(point)):
+        pick_up.append((height - int(point[i+1]), int(point[i])));
+        i += 2
+    # Dòng 3: Số lượng chướng ngại vsật (đa giác) n
     nObj = int(fin.readline())
 
     # n dòng tiếp theo: Dòng thứ i: Chứa thông tin đa giác thứ i: Cứ 2 cặp số là tọa độ của một đỉnh.
@@ -36,4 +41,4 @@ def readFromFile(file_name):
 
             j += 2
     fin.close()
-    return map, width, height, start, goal
+    return map, width, height, start, pick_up, goal

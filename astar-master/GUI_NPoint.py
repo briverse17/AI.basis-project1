@@ -20,12 +20,13 @@ ITEM_HEIGHT = 20
 DELAY_TIME = 0.005  # 0.1s
 sum_delay = 0
 
-class GUI():
-    def __init__(self, map, map_width, map_height, start, goal, screen_width, screen_height, screen_caption):
+class GUI_NPoint():
+    def __init__(self, map, map_width, map_height, start, pick_up, goal, screen_width, screen_height, screen_caption):
         self.map = map
         self.map_width = map_width
         self.map_height = map_height
         self.start = start
+        self.pick_up = pick_up
         self.goal = goal
         self.screen_width = screen_width
         self.screen_height = screen_height
@@ -39,6 +40,7 @@ class GUI():
         height = self.map_height
         matrix = self.map
         root = self.start
+        pick_up = self.pick_up
         des = self.goal
         self.screen.fill(BACKGROUND_COLOR)
         x = 0
@@ -58,6 +60,10 @@ class GUI():
                           ITEM_HEIGHT])
         pygame.draw.rect(self.screen, START_GOAL_COLOR,
                          [(ITEM_WIDTH + MARGIN) * des[1] + MARGIN, (ITEM_HEIGHT + MARGIN) * des[0] + MARGIN, ITEM_WIDTH,
+                          ITEM_HEIGHT])
+        for i in range(len(pick_up)):
+            pygame.draw.rect(self.screen, START_GOAL_COLOR,
+                         [(ITEM_WIDTH + MARGIN) * pick_up[i][1] + MARGIN, (ITEM_HEIGHT + MARGIN) * pick_up[i][0] + MARGIN, ITEM_WIDTH,
                           ITEM_HEIGHT])
         pygame.display.flip()
 
