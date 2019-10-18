@@ -16,7 +16,7 @@ def readFromFile(file_name):
     pick_up = []
     i = 4
     while(i != len(point)):
-        pick_up.append((height - int(point[i+1]), int(point[i])));
+        pick_up.append((height - int(point[i+1]) - 1, int(point[i])));
         i += 2
     # Dòng 3: Số lượng chướng ngại vsật (đa giác) n
     nObj = int(fin.readline())
