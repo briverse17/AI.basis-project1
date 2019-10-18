@@ -1,25 +1,26 @@
 from AStar import AStar
 from AStar_NPoint import AStarNPoint
-from DFS import DFS
+from Greedy import Greedy
+from BFS import BFS
 from GUI import *
 from GUI_NPoint import *
 
 if __name__ == "__main__":
-        input_name = 'input2.txt'
+        # input_name = 'input2.txt'
 
-        findPath = AStarNPoint(input_name)
-        map, map_width, map_height, start, pick_up, goal = findPath.getMapInformation()
-        print(start, pick_up, goal)
-        screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
-        screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
+        # findPath = AStarNPoint(input_name)
+        # map, map_width, map_height, start, pick_up, goal = findPath.getMapInformation()
+        # print(start, pick_up, goal)
+        # screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
+        # screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
 
-        gui_n = GUI_NPoint(map, map_height, map_width, start, pick_up, goal, screen_width, screen_height, "A Star With N Pickup Point")
-        gui_n.drawMap()
-        gui_n.ready()
+        # gui_n = GUI_NPoint(map, map_height, map_width, start, pick_up, goal, screen_width, screen_height, "A Star With N Pickup Point")
+        # gui_n.drawMap()
+        # gui_n.ready()
 
-        findPath.runAStarNPoint(gui_n, input_name)
+        # findPath.runAStarNPoint(gui_n, input_name)
 
-        gui_n.wait()
+        # gui_n.wait()
         #========================================
         # input_name = 'input1.txt'
 
@@ -36,89 +37,89 @@ if __name__ == "__main__":
         # findPath.runAStar(gui, input_name)
 
         # gui.wait()
-#     if sys.argv[1] == "AStar":
-#             input_name = sys.argv[2]
+    if sys.argv[1] == "AStar":
+            input_name = sys.argv[2]
 
-#             findPath = AStar(input_name)
-#             map, map_width, map_height, start, goal = findPath.getMapInformation()
+            findPath = AStar(input_name)
+            map, map_width, map_height, start, goal = findPath.getMapInformation()
 
-#             screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
-#             screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
+            screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
+            screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
 
-#             gui = GUI(map, map_height, map_width, start, goal, screen_width, screen_height, "A Star")
-#             gui.drawMap()
-#             gui.ready()
+            gui = GUI(map, map_height, map_width, start, goal, screen_width, screen_height, "A Star")
+            gui.drawMap()
+            gui.ready()
 
-#             findPath.runAStar(gui, input_name)
+            findPath.runAStar(gui, input_name)
 
-#             gui.wait()
+            gui.wait()
 
-#     elif sys.argv[1] == "AStarNPoint":
-#             input_name = sys.argv[2]
+    elif sys.argv[1] == "AStarNPoint":
+            input_name = sys.argv[2]
 
-#             findPath = AStarNPoint(input_name)
-#             map, map_width, map_height, start, pick_up, goal = findPath.getMapInformation()
+            findPath = AStarNPoint(input_name)
+            map, map_width, map_height, start, pick_up, goal = findPath.getMapInformation()
             
-#             screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
-#             screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
+            screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
+            screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
 
-#             gui_n = GUI_NPoint(map, map_height, map_width, start, pick_up, goal, screen_width, screen_height, "A Star With N Pickup Point")
-#             gui_n.drawMap()
-#             gui_n.ready()
+            gui_n = GUI_NPoint(map, map_height, map_width, start, pick_up, goal, screen_width, screen_height, "A Star With N Pickup Point")
+            gui_n.drawMap()
+            gui_n.ready()
 
-#             findPath.runAStarNPoint(gui_n, input_name)
+            findPath.runAStarNPoint(gui_n, input_name)
 
-#             gui_n.wait()
+            gui_n.wait()
 
-#     elif sys.argv[1] == "DFS":
-#             input_name = sys.argv[2]
+    elif sys.argv[1] == "BFS":
+            input_name = sys.argv[2]
 
-#             findPath = DFS(input_name)
-#             map, map_width, map_height, start, goal = findPath.getMapInformation()
-#             screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
-#             screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
+            findPath = BFS(input_name)
+            map, map_width, map_height, start, goal = findPath.getMapInformation()
+            screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
+            screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
 
-#             gui = GUI(map, map_height, map_width, start, goal, screen_width, screen_height, "DFS")
-#             gui.drawMap()
-#             gui.ready()
+            gui = GUI(map, map_height, map_width, start, goal, screen_width, screen_height, "BFS")
+            gui.drawMap()
+            gui.ready()
 
-#             findPath.runDFS(gui, input_name)
+            findPath.runBFS(gui, input_name)
 
-#             gui.wait()
+            gui.wait()
 
-#     elif sys.argv[1] == "USC":
-#             input_name = sys.argv[2]
+    elif sys.argv[1] == "USC":
+            input_name = sys.argv[2]
 
-#             findPath = AStar(input_name)
-#             map, map_width, map_height, start, goal = findPath.getMapInformation()
+            findPath = AStar(input_name)
+            map, map_width, map_height, start, goal = findPath.getMapInformation()
 
-#             screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
-#             screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
+            screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
+            screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
 
-#             gui = GUI(map, map_height, map_width, start, goal, screen_width, screen_height, "A Star")
-#             gui.drawMap()
-#             gui.ready()
+            gui = GUI(map, map_height, map_width, start, goal, screen_width, screen_height, "A Star")
+            gui.drawMap()
+            gui.ready()
 
-#             findPath.runAStar(gui, input_name)
+            findPath.runAStar(gui, input_name)
 
-#             gui.wait()
+            gui.wait()
 
-#     elif sys.argv[1] == "USC":
-#             input_name = sys.argv[2]
+    elif sys.argv[1] == "Greedy":
+            input_name = sys.argv[2]
 
-#             findPath = AStar(input_name)
-#             map, map_width, map_height, start, goal = findPath.getMapInformation()
+            findPath = Greedy(input_name)
+            map, map_width, map_height, start, goal = findPath.getMapInformation()
 
-#             screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
-#             screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
+            screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
+            screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
 
-#             gui = GUI(map, map_height, map_width, start, goal, screen_width, screen_height, "A Star")
-#             gui.drawMap()
-#             gui.ready()
+            gui = GUI(map, map_height, map_width, start, goal, screen_width, screen_height, "Greedy Best First Search")
+            gui.drawMap()
+            gui.ready()
 
-#             findPath.runAStar(gui, input_name)
+            findPath.runGreedy(gui, input_name)
 
-#             gui.wait()
+            gui.wait()
 
-#     else:
-#         Notification().error("Error", "Parameter is incorrect")
+    else:
+        Notification().error("Error", "Parameter is incorrect")

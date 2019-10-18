@@ -6,12 +6,12 @@ from Heuristic import *
 
 
 # A* search algorithm
-class DFS:
+class BFS:
 
     def __init__(self, input_name = 'input1.txt'):
         self.minStep = -1
         self.minPath = []
-        self.close_set = []
+        self.close_set = set()
         self.open_set = PriorityQueue()
         self.came_from = {}  # father
         self.map, self.map_width, self.map_height, self.start, self.goal = readFromFile(input_name)
@@ -37,64 +37,34 @@ class DFS:
         map = self.map
         return (0 <= neighbor[0] < map.shape[0]) and (0 <= neighbor[1] < map.shape[1]) and (map[neighbor[0]][neighbor[1]] == 0)
 
-    def DFS(self, gui):
-        #neighbors = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
-        neighbors = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+    def BFS(self, gui):
         self.open_set.put(self.start, 0)
-        while True:
-            if(self.open_set.empty()):
-                break
+       # neighbors = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
+        neighbors = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+        while not self.open_set.empty():
             _, current = self.open_set.get()
-            self.close_set.append(current)
-            gui.updateMap(current, CURRENT_COLOR)
-
             if current == self.goal:
                 return self.trackingPath()
-            
+            self.close_set.add(current)
+            gui.updateMap(current, CURRENT_COLOR)
             for direction in neighbors:
                 neighbor = (current[0] + direction[0], current[1] + direction[1])
                 if not self.isValid(neighbor):
                     continue
                 gui.updateMap(neighbor, NEIGHBOR_COLOR)
-                if neighbor not in self.close_set:
+                if neighbor not in self.came_from:
                     self.open_set.put(neighbor, 0)
-
+                    self.came_from[neighbor] = current
+                    self.close_set.add(neighbor)
         return []
 
-
-    # def aStar(self, gui):
-    #     self.open_set.put(self.start, 0)
-    #     self.g_score[self.start] = 0
-    #     self.f_score[self.start] = self.g_score[self.start] + heuristic(self.start, self.goal)
-    #     neighbors = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
-
-    #     while not self.open_set.empty():
-    #         _, current = self.open_set.get()
-    #         if current == self.goal:
-    #             return self.trackingPath()
-    #         self.close_set.add(current)
-    #         gui.updateMap(current, CURRENT_COLOR)
-    #         for direction in neighbors:
-    #             neighbor = (current[0] + direction[0], current[1] + direction[1])
-    #             if not self.isValid(neighbor):
-    #                 continue
-    #             if neighbor in self.close_set and self.g_score[current] + 1 >= self.g_score[neighbor]:
-    #                 continue
-    #             gui.updateMap(neighbor, NEIGHBOR_COLOR)
-    #             if neighbor not in self.g_score or self.g_score[current] + 1 < self.g_score[neighbor]:
-    #                 self.came_from[neighbor] = current
-    #                 self.g_score[neighbor] = self.g_score[current] + 1
-    #                 self.f_score[neighbor] = self.g_score[neighbor] + heuristic(neighbor, self.goal)
-    #                 self.open_set.put(neighbor, self.f_score[neighbor])
-    #     return []
-
-    def runDFS(self, gui, input_name = 'input1.txt'):
+    def runBFS(self, gui, input_name = 'input1.txt'):
         global sum_delay
         sum_delay = 0
 
         START_TIME = time.clock()
         self.map, self.map_width, self.map_height, self.start, self.goal = readFromFile(input_name)
-        self.minPath = self.DFS(gui)
+        self.minPath = self.BFS(gui)
  
         if self.minStep == -1:
             Notification().alert("Notification", "Path not found!")
