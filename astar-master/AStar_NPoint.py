@@ -69,26 +69,20 @@ class AStarNPoint:
         curr = self.start
         next = self.pick_up_set.pop(self.findNextPoint(curr))
         a = self.aStar(curr, next, gui)
-        print(self.minPath)
-        print(a)
+        
         self.minPath = self.minPath + a
         print(self.minPath)
 
         while self.pick_up_set:
             curr = next
             next = self.pick_up_set.pop(self.findNextPoint(curr))
-            a = self.aStar(curr, next, gui)
-            print(self.minPath)
-            print(a)
-            self.minPath = self.minPath + a
-            print(self.minPath)
+            self.came_from = {}
+            self.minPath = self.minPath + self.aStar(curr, next, gui)
         
         curr = next
         next = self.goal
-        a = self.aStar(curr, next, gui)
-        print(self.minPath)
-        print(a)
-        self.minPath = self.minPath + a
+        self.came_from = {}
+        self.minPath = self.minPath + self.aStar(curr, next, gui)
         print(self.minPath)
         
         return self.minPath

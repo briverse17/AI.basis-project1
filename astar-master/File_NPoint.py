@@ -18,7 +18,7 @@ def readFromFile(file_name):
     while(i != len(point)):
         pick_up.append((height - int(point[i+1]) - 1, int(point[i])));
         i += 2
-    # Dòng 3: Số lượng chướng ngại vsật (đa giác) n
+    # Dòng 3: Số lượng chướng ngại vật (đa giác) n
     nObj = int(fin.readline())
 
     # n dòng tiếp theo: Dòng thứ i: Chứa thông tin đa giác thứ i: Cứ 2 cặp số là tọa độ của một đỉnh.
