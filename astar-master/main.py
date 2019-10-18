@@ -6,9 +6,10 @@ from ARAStar import ARAStar
 from GUI import *
 
 if __name__ == "__main__":
-    if len(sys.argv) == 3 or len(sys.argv) == 5:
-        if len(sys.argv) == 3:
-            input_name, output_name = sys.argv[1], sys.argv[2]
+    
+    #    if len(sys.argv) == 3:
+            input_name = "astar-master\input1.txt"
+            output_name = "astar-master\output1.txt"
 
             findPath = AStar(input_name)
             map, map_width, map_height, start, goal = findPath.getMapInformation()
@@ -24,10 +25,4 @@ if __name__ == "__main__":
 
             gui.wait()
 
-        else:
-            input, output, epsilon, tmax = sys.argv[1], sys.argv[2], float(sys.argv[3]), int(sys.argv[4])
-            findPath = ARAStar()
-            findPath.runARAStar(input, output, epsilon, tmax)
-
-    else:
-        Notification().error("Error", "Parameter is incorrect")
+     

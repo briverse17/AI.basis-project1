@@ -20,6 +20,7 @@ def readFromFile(file_name):
     map = np.zeros((height, width))  # ma trận bản đồ
 
     for i in range(nObj):
+
         tmp = fin.readline().strip("\n").split(",")
         j = 0
 
@@ -36,6 +37,7 @@ def readFromFile(file_name):
 
             j += 2
     fin.close()
+    print(map)
     return map, width, height, start, goal
 
 
