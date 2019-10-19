@@ -4,6 +4,7 @@ from GUI import *
 from shapely.geometry import Point, Polygon
 from shapely.geometry.polygon import LinearRing
 
+# BFS search algorithm
 class BFS:
     '''Breadth-First Search algorithm'''
     def __init__(self, input_name = 'input1.txt'):

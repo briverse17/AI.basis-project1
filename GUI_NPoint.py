@@ -10,6 +10,8 @@ WALL_COLOR = (0, 0, 0)
 START_GOAL_COLOR = (255, 0, 0) #red
 CURRENT_COLOR = (102, 102, 255) #blue
 BACKGROUND_COLOR = (204, 255, 229)
+PICK_UP_COLOR = (0,255,43) #green
+PART_MIN_COLOR = (255,102,0) #organce
 
 # variable
 MARGIN = 1
@@ -62,7 +64,7 @@ class GUI_NPoint():
                          [(ITEM_WIDTH + MARGIN) * des[1] + MARGIN, (ITEM_HEIGHT + MARGIN) * des[0] + MARGIN, ITEM_WIDTH,
                           ITEM_HEIGHT])
         for i in range(len(pick_up)):
-            pygame.draw.rect(self.screen, START_GOAL_COLOR,
+            pygame.draw.rect(self.screen, PICK_UP_COLOR,
                          [(ITEM_WIDTH + MARGIN) * pick_up[i][1] + MARGIN, (ITEM_HEIGHT + MARGIN) * pick_up[i][0] + MARGIN, ITEM_WIDTH,
                           ITEM_HEIGHT])
         pygame.display.flip()
@@ -79,8 +81,18 @@ class GUI_NPoint():
         sum_delay = sum_delay + DELAY_TIME
 
     def drawPath(self, path):
+        pick_up = self.pick_up
+        des = self.goal
         for pos in path:
-            self.updateMap(pos, START_GOAL_COLOR)
+            self.updateMap(pos, PART_MIN_COLOR)
+        pygame.draw.rect(self.screen, START_GOAL_COLOR,
+                         [(ITEM_WIDTH + MARGIN) * des[1] + MARGIN, (ITEM_HEIGHT + MARGIN) * des[0] + MARGIN, ITEM_WIDTH,
+                          ITEM_HEIGHT])
+        for i in range(len(pick_up)):
+            pygame.draw.rect(self.screen, PICK_UP_COLOR,
+                         [(ITEM_WIDTH + MARGIN) * pick_up[i][1] + MARGIN, (ITEM_HEIGHT + MARGIN) * pick_up[i][0] + MARGIN, ITEM_WIDTH,
+                          ITEM_HEIGHT])
+        pygame.display.update()
 
     def ready(self):
         Notification().alert(self.screen_caption, "Press OK to start")
