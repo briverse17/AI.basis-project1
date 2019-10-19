@@ -6,10 +6,10 @@ from Heuristic import *
 from shapely.geometry import Point, Polygon
 from shapely.geometry.polygon import LinearRing
 
-# A* search algorithm
 class AStar:
-
+    '''A* Search algorithm'''
     def __init__(self, input_name = 'input1.txt'):
+        '''Initialize the A* class'''
         self.minStep = -1
         self.minPath = []
         self.g_score = {}

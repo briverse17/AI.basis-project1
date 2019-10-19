@@ -5,10 +5,10 @@ from GUI import *
 from shapely.geometry import Point, Polygon
 from shapely.geometry.polygon import LinearRing
 
-#Uniform Cost Search algorithm
 class UCS:
-
+    '''Uniform Cost Search algorithm'''
     def __init__(self, input_name = 'input1.txt'):
+        '''Initialize the UCS class'''
         self.minStep = -1
         self.minPath = []
         self.g_score = {}

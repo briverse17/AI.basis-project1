@@ -6,9 +6,10 @@ from Heuristic import *
 from shapely.geometry import Point, Polygon
 from shapely.geometry.polygon import LinearRing
 
-# A* search algorithm
 class Greedy:
+    '''Greedy Best First Search algorithm'''
     def __init__(self, input_name = 'input1.txt'):
+        '''Initialize the Greedy Best First Search class'''
         self.minStep = -1
         self.minPath = []
         self.f_score = {}

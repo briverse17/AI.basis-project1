@@ -5,8 +5,8 @@ from File_NPoint import *
 from GUI_NPoint import *
 from Heuristic import *
 
-# A* search algorithm
 class AStarNPoint:
+    '''A* Search algorithm with N pick-up point'''
     def __init__(self, input_name = 'input1.txt'):
         self.minStep = -1
         self.minPath = []
@@ -20,12 +20,14 @@ class AStarNPoint:
         self.pick_up_set = []
 
     def getMapInformation(self):
+        '''return the map information'''
         return self.map, self.map_width, self.map_height, self.start, self.pick_up, self.goal
 
     def getStart(self):
         return self.start
 
     def trackingPath(self, start, goal):
+        '''return the path from start to goal'''
         data = []
         current = tuple(goal)
         while current in self.came_from:
@@ -37,11 +39,14 @@ class AStarNPoint:
         return data
 
     def isValid(self, neighbor):
+        '''checking next step is valid or not'''
         map = self.map
+        #if neighbor is still in the map and available
         return (0 <= neighbor[0] < map.shape[0]) and (0 <= neighbor[1] < map.shape[1]) and (map[neighbor[0]][neighbor[1]] == 0)
 
     def aStar(self, curr, next, gui):
-        self.g_score = {}
+        #reset all value everytime we run aStar
+        self.g_score = {} 
         self.f_score = {}
         self.close_set = set()
         self.open_set = PriorityQueue()
@@ -50,21 +55,21 @@ class AStarNPoint:
         self.open_set.put(curr, 0)
         self.g_score[curr] = 0
         self.f_score[curr] = self.g_score[curr] + heuristic(curr, next)
-       # neighbors = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
-        neighbors = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+        neighbors = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
+
         while not self.open_set.empty():
             _, current = self.open_set.get()
             if current == next:
                 return self.trackingPath(curr, next)
             self.close_set.add(current)
-            #gui.updateMap(current, CURRENT_COLOR)
+
             for direction in neighbors:
                 neighbor = (current[0] + direction[0], current[1] + direction[1])
                 if not self.isValid(neighbor):
                     continue
                 if neighbor in self.close_set and self.g_score[current] + 1 >= self.g_score[neighbor]:
                     continue
-                #gui.updateMap(neighbor, NEIGHBOR_COLOR)
+                
                 if neighbor not in self.g_score or self.g_score[current] + 1 < self.g_score[neighbor]:
                     self.came_from[neighbor] = current
                     self.g_score[neighbor] = self.g_score[current] + 1
