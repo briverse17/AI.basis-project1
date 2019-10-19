@@ -17,7 +17,7 @@ ITEM_WIDTH = 15
 ITEM_HEIGHT = 15
 
 # time
-DELAY_TIME = 0.0001  # 0.1s
+DELAY_TIME = 0.00001  # 0.1s
 sum_delay = 0
 
 class GUI():

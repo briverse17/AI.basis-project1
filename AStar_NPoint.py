@@ -103,7 +103,7 @@ class AStarNPoint:
                     self.open_set.put(neighbor, self.f_score[neighbor])
         return []
         #the function gets here after iterating all nodes but couldn't reach next
-    
+
     def aStarNPoint(self, gui):
         '''Run the AStar with N pick up point'''
         minStep = 0
@@ -114,17 +114,33 @@ class AStarNPoint:
             self.pick_up_set = list(permutation[i])
             curr = self.start
             next = self.pick_up_set.pop(0)
+            path = self.aStar(curr, next, gui)
             
-            self.minPath = self.minPath + self.aStar(curr, next, gui)
+            #check if we can find a path or not
+            if path:
+                self.minPath = self.minPath + self.aStar(curr, next, gui)
+            else:
+                self.minStep = -1
+                return []
 
             while self.pick_up_set:
                 curr = next
                 next = self.pick_up_set.pop(0)
-                self.minPath = self.minPath + self.aStar(curr, next, gui)
+                path = self.aStar(curr, next, gui)
+                if path:
+                    self.minPath = self.minPath + self.aStar(curr, next, gui)
+                else: 
+                    self.minStep = -1
+                    return []
         
             curr = next
             next = self.goal
-            self.minPath = self.minPath + self.aStar(curr, next, gui)
+            path = self.aStar(curr, next, gui)
+            if path:
+                self.minPath = self.minPath + self.aStar(curr, next, gui)
+            else:
+                self.minStep = -1
+                return []
 
             if((i == 0) or (self.minStep < minStep)):
                 minStep = self.minStep
