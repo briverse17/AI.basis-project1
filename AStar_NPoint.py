@@ -40,9 +40,12 @@ class AStarNPoint:
         while current in self.came_from:
             data.append(current)
             current = self.came_from[current]
+            if(data[-1][0] != current[0] and data[-1][1] != current[0]):
+                self.minStep += 1.5 #the cost is 1.5 with diagonal
+            else:
+                self.minStep += 1 #the cost is costs 1 with straight
         data.append(start)
         data.reverse()
-        self.minStep += len(data)
         return data
 
     def isValid(self, neighbor):
