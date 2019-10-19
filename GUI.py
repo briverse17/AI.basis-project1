@@ -75,6 +75,7 @@ class GUI():
     def drawPath(self, path):
         for pos in reversed(path):
             self.updateMap(pos, START_GOAL_COLOR)
+        
 
     def ready(self):
         Notification().alert(self.screen_caption, "Press OK to start")

@@ -44,27 +44,3 @@ def readFromFile(file_name):
     return map, width, height, start, goal, objects
 
 
-# def writeToFile(file_name, map, map_width, map_height, start, goal, step, path):
-#     fout = open(file_name, "w")
-#     fout.write("%s\n" % str(step))
-#     if step != -1:
-#         for coor in path:
-#             fout.write(str(coor) + ' ')
-#         fout.write("\n")
-#         mapFile = map
-#         for i in range(map_height):
-#             for j in range(map_width):
-#                 if map[i][j] == 1:
-#                     mapFile[i][j] = 'o'
-#                 elif map[i][j] == 0:
-#                     mapFile[i][j] = '-'
-#         for i, j in path:
-#             mapFile[i][j] = 'x'
-#         mapFile[start[0]][start[1]] = 'S'
-#         mapFile[goal[0]][goal[1]] = 'G'
-#         for row in mapFile:
-#             for i in row:
-#                 fout.write("%s " % i)
-#             fout.write("\n")
-    
-#     fout.close()

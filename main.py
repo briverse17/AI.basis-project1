@@ -95,7 +95,7 @@ if __name__ == "__main__":
             input_name = sys.argv[2]
 
             findPath = AStarNPoint(input_name)
-            map, map_width, map_height, start, pick_up, goal = findPath.getMapInformation()
+            map, map_width, map_height, start, pick_up, goal, objects = findPath.getMapInformation()
             
             screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
             screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height

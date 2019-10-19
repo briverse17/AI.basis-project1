@@ -4,7 +4,13 @@ from itertools import permutations
 from File_NPoint import *
 from GUI_NPoint import *
 from Heuristic import *
+from shapely.geometry import Point, Polygon
+from shapely.geometry.polygon import LinearRing
 
+<<<<<<< HEAD
+=======
+# A*_NPoint search algorithm
+>>>>>>> 28a388fdfa2ffc44279bf9faae3722605fd7ef85
 class AStarNPoint:
     '''A* Search algorithm with N pick-up point'''
     def __init__(self, input_name = 'input1.txt'):
@@ -15,13 +21,17 @@ class AStarNPoint:
         self.close_set = set()
         self.open_set = PriorityQueue()
         self.came_from = {}  # father
-        self.map, self.map_width, self.map_height, self.start, self.pick_up, self.goal = readFromFile(input_name)
+        self.map, self.map_width, self.map_height, self.start, self.pick_up, self.goal, self.objects = readFromFile(input_name)
 
         self.pick_up_set = []
 
     def getMapInformation(self):
+<<<<<<< HEAD
         '''return the map information'''
         return self.map, self.map_width, self.map_height, self.start, self.pick_up, self.goal
+=======
+        return self.map, self.map_width, self.map_height, self.start, self.pick_up, self.goal, self.objects
+>>>>>>> 28a388fdfa2ffc44279bf9faae3722605fd7ef85
 
     def getStart(self):
         return self.start
@@ -39,10 +49,21 @@ class AStarNPoint:
         return data
 
     def isValid(self, neighbor):
-        '''checking next step is valid or not'''
+        '''Check if a neighbor is a valid direction to go'''
         map = self.map
-        #if neighbor is still in the map and available
-        return (0 <= neighbor[0] < map.shape[0]) and (0 <= neighbor[1] < map.shape[1]) and (map[neighbor[0]][neighbor[1]] == 0)
+        objects = self.objects
+        check = True
+        #check (neighbor[0], neighbor[1]) is in one of the objects or not
+        for i in range(len(objects)):
+            linearring = LinearRing(list(objects[i].exterior.coords))
+            if (objects[i].contains(Point(neighbor[1], self.map_height -  neighbor[0] - 1)) or
+                objects[i].touches(Point(neighbor[1], self.map_height - neighbor[0] - 1)) or
+                linearring.contains(Point(neighbor[1], self.map_height - neighbor[0] - 1))):
+                check = False
+                break
+        return (check and 0 <= neighbor[0] < map.shape[0] and
+                0 <= neighbor[1] < map.shape[1] and
+                map[neighbor[0]][neighbor[1]] == 0)
 
     def aStar(self, curr, next, gui):
         #reset all value everytime we run aStar
@@ -56,7 +77,11 @@ class AStarNPoint:
         self.g_score[curr] = 0
         self.f_score[curr] = self.g_score[curr] + heuristic(curr, next)
         neighbors = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
+<<<<<<< HEAD
 
+=======
+        #neighbors = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+>>>>>>> 28a388fdfa2ffc44279bf9faae3722605fd7ef85
         while not self.open_set.empty():
             _, current = self.open_set.get()
             if current == next:
@@ -75,7 +100,7 @@ class AStarNPoint:
                     self.g_score[neighbor] = self.g_score[current] + 1
                     self.f_score[neighbor] = self.g_score[neighbor] + heuristic(neighbor, next)
                     self.open_set.put(neighbor, self.f_score[neighbor])
-        
+    
         return []
     
     def aStarNPoint(self, gui):
@@ -107,8 +132,6 @@ class AStarNPoint:
         self.minPath = minPath
         return self.minPath
 
-
-
     def pickupPermute(self):
         pickupPermute = permutations(self.pick_up)
         return list(pickupPermute)
@@ -123,7 +146,7 @@ class AStarNPoint:
         global sum_delay
         sum_delay = 0
         START_TIME = time.clock()
-        self.map, self.map_width, self.map_height, self.start, self.pick_up, self.goal = readFromFile(input_name)
+        self.map, self.map_width, self.map_height, self.start, self.pick_up, self.goal, self.objects = readFromFile(input_name)
         self.minPath = self.aStarNPoint(gui)
         
         if self.minStep == -1:
