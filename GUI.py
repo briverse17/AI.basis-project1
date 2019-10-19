@@ -21,7 +21,9 @@ DELAY_TIME = 0.0001  # 0.1s
 sum_delay = 0
 
 class GUI():
+    '''GUI of the application'''
     def __init__(self, map, map_width, map_height, start, goal, screen_width, screen_height, screen_caption):
+        '''Initialize the GUI class'''
         self.map = map
         self.map_width = map_width
         self.map_height = map_height
@@ -35,6 +37,7 @@ class GUI():
         self.screen = pygame.display.set_mode([screen_width, screen_height])
 
     def drawMap(self):
+        '''draw the initial map before running algorithm'''
         width = self.map_width
         height = self.map_height
         matrix = self.map
@@ -62,6 +65,7 @@ class GUI():
         pygame.display.flip()
 
     def updateMap(self, pos, color):
+        '''update map while running algorithm'''
         global sum_delay
         if self.start != pos:
             pygame.draw.rect(self.screen, color,
@@ -73,14 +77,17 @@ class GUI():
         sum_delay = sum_delay + DELAY_TIME
 
     def drawPath(self, path):
+        '''draw path of final result'''
         for pos in reversed(path):
             self.updateMap(pos, START_GOAL_COLOR)
         
 
     def ready(self):
+        '''check if user are ready'''
         Notification().alert(self.screen_caption, "Press OK to start")
 
     def wait(self):
+        '''wait after printing the result'''
         while True:
             event = pygame.event.poll()
             if event.type == pygame.QUIT:
@@ -89,6 +96,7 @@ class GUI():
 
 
 class Notification():
+    '''Notification class'''
     def alert(self, title, content):
         Tk().wm_withdraw()
         messagebox.showinfo(title, content)

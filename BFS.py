@@ -17,9 +17,11 @@ class BFS:
         self.map, self.map_width, self.map_height, self.start, self.goal, self.objects = readFromFile(input_name)
 
     def getMapInformation(self):
+        '''Return map, map_width, map_height, start, pick_up, goal, objects'''
         return self.map, self.map_width, self.map_height, self.start, self.goal, self.objects
 
     def getStart(self):
+        '''Return the starting point'''
         return self.start
 
     def trackingPath(self):
@@ -56,7 +58,7 @@ class BFS:
         self.open_set.put(self.start)
         #neighbors is a list of tuples of directions
         neighbors = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
-        #neighbors = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+        #neighbors = [(-1, 0), (0, 1), (1, 0), (0, -1)] if we want it to go straight
                         
         #self.open_set is a FIFO queue
         while not self.open_set.empty():

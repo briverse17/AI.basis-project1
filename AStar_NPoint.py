@@ -7,13 +7,13 @@ from Heuristic import *
 from shapely.geometry import Point, Polygon
 from shapely.geometry.polygon import LinearRing
 
-<<<<<<< HEAD
-=======
+
 # A*_NPoint search algorithm
->>>>>>> 28a388fdfa2ffc44279bf9faae3722605fd7ef85
+
 class AStarNPoint:
     '''A* Search algorithm with N pick-up point'''
     def __init__(self, input_name = 'input1.txt'):
+        '''Initialize the AStarNPoint class'''
         self.minStep = -1
         self.minPath = []
         self.g_score = {}
@@ -26,14 +26,11 @@ class AStarNPoint:
         self.pick_up_set = []
 
     def getMapInformation(self):
-<<<<<<< HEAD
-        '''return the map information'''
-        return self.map, self.map_width, self.map_height, self.start, self.pick_up, self.goal
-=======
+        '''Return map, map_width, map_height, start, pick_up, goal, objects'''
         return self.map, self.map_width, self.map_height, self.start, self.pick_up, self.goal, self.objects
->>>>>>> 28a388fdfa2ffc44279bf9faae3722605fd7ef85
 
     def getStart(self):
+        '''Return the starting point'''
         return self.start
 
     def trackingPath(self, start, goal):
@@ -66,6 +63,7 @@ class AStarNPoint:
                 map[neighbor[0]][neighbor[1]] == 0)
 
     def aStar(self, curr, next, gui):
+        '''The AStar function'''
         #reset all value everytime we run aStar
         self.g_score = {} 
         self.f_score = {}
@@ -77,18 +75,18 @@ class AStarNPoint:
         self.g_score[curr] = 0
         self.f_score[curr] = self.g_score[curr] + heuristic(curr, next)
         neighbors = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
-<<<<<<< HEAD
-
-=======
-        #neighbors = [(-1, 0), (0, 1), (1, 0), (0, -1)]
->>>>>>> 28a388fdfa2ffc44279bf9faae3722605fd7ef85
+        #neighbors = [(-1, 0), (0, 1), (1, 0), (0, -1)] if we want it to go straight
         while not self.open_set.empty():
             _, current = self.open_set.get()
             if current == next:
+                #the function gets here when it runned successfully (next reached)
+                #calls self.trackingPath to get the result
                 return self.trackingPath(curr, next)
+            #not goal reached
             self.close_set.add(current)
 
             for direction in neighbors:
+                #for each current node, check all 8 of its neighbor
                 neighbor = (current[0] + direction[0], current[1] + direction[1])
                 if not self.isValid(neighbor):
                     continue
@@ -100,10 +98,11 @@ class AStarNPoint:
                     self.g_score[neighbor] = self.g_score[current] + 1
                     self.f_score[neighbor] = self.g_score[neighbor] + heuristic(neighbor, next)
                     self.open_set.put(neighbor, self.f_score[neighbor])
-    
         return []
+        #the function gets here after iterating all nodes but couldn't reach next
     
     def aStarNPoint(self, gui):
+        '''Run the AStar with N pick up point'''
         minStep = 0
         minPath = []
 
@@ -133,16 +132,12 @@ class AStarNPoint:
         return self.minPath
 
     def pickupPermute(self):
+        '''return list of permutation of pick up point'''
         pickupPermute = permutations(self.pick_up)
         return list(pickupPermute)
 
-    def findNextPoint(self, current):
-        dis = []
-        for i in range(len(self.pick_up_set)):
-            dis.append(heuristic(current, self.pick_up_set[i]))
-        return dis.index(min(dis))
-
     def runAStarNPoint(self, gui, input_name = 'input1.txt'):
+        '''Run the AStar with N pick up point function and print the result'''
         global sum_delay
         sum_delay = 0
         START_TIME = time.clock()
