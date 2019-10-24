@@ -83,7 +83,9 @@ class UCS:
                 gui.updateMap(neighbor, NEIGHBOR_COLOR)
                 if neighbor not in self.g_score or self.g_score[current] + 1 < self.g_score[neighbor]:
                     self.came_from[neighbor] = current
-                    self.g_score[neighbor] = self.g_score[current] + 1
+                    if direction[0] != 0 and direction[1] != 0:
+                        self.g_score[neighbor] = self.g_score[current] + 1.5
+                    else: self.g_score[neighbor] = self.g_score[current] + 1
                     self.open_set.put(neighbor, self.g_score[neighbor])
         return []
         #the function gets here after iterating all nodes but couldn't reach self.goal
