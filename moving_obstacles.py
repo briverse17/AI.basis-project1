@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from matplotlib.animation import HTMLWriter
+from matplotlib.animation import ImageMagickWriter
 from matplotlib.pyplot import figure
 from shapely.geometry import Point, Polygon, LineString
 from shapely.geometry.polygon import LinearRing
@@ -9,7 +9,8 @@ from PriorityQueue import PriorityQueue
 from Heuristic import *
 import sys
 
-filename = "input1.txt"
+filename = sys.argv[1]
+d = sys.argv[2]
 
 g_score = {}
 f_score = {}
@@ -20,11 +21,6 @@ fig = plt.figure()
 ax1 = fig.add_subplot(1,1,1)
 count = 0
 check = tuple()
-
-firstpathx = []
-firstpathy = []
-realpathx = []
-realpathy = []
 
 def readFromFile(filename):
     fin = open(filename, "r")
@@ -71,8 +67,6 @@ def moveObjects(objs, dist):
         objects.append(Polygon(vertices))
     return objects
  
-w, h, s, g, vl = readFromFile(filename)
-
 def overlapTriggered(point, objects):
     for i in objects:
         linearring = LinearRing(list(i.exterior.coords))
@@ -90,8 +84,14 @@ def displayObjects(objs):
         plt.plot(coors[k][0], coors[k][1])
 
 def displayRobot(newx, newy):
-    plt.scatter(newx, newy, marker = "*", color = "blue", lw = 10)
-    #plt.annotate("current", (newx, newy))
+    plt.scatter(newx, newy, marker = "*", color = "pink", lw = 5)
+    plt.annotate("Robot", (newx, newy - 1))
+
+firstpathx = []
+firstpathy = []
+
+realpathx = []
+realpathy = []
 
 def displayPath(xs, ys):
     for i in range(len(firstpathx) - 1):
@@ -104,8 +104,12 @@ def displayPath(xs, ys):
 def driving(w, h, g, xs, ys, objs):
     global check
     code = 0
-    if check == g:
+    if xs == [] and ys == []:
+        notfound(objs)
         plt.pause(2)
+        return
+    if check == g:
+        plt.pause(1)
         return
     else:
         for i in range(len(xs)):
@@ -114,44 +118,43 @@ def driving(w, h, g, xs, ys, objs):
             plt.ylim(0, h)
             dist = 0
             if (i % 2 == 0):
-               dist = 1
+                dist = float(d)
             else:
-                dist = -1
+                dist = -float(d)
             tobjs = moveObjects(objs, dist)
             txs = xs
             tys = ys
-            if (i == len(xs) - 2):
+            if (i == len(xs) - 4):
                 for j in range(i, len(xs)):
                     plt.clf()
                     plt.xlim(0, w)
                     plt.ylim(0, h)
-                    #realpathx.append(txs[j])
-                    #realpathy.append(tys[j])
+
                     displayObjects(tobjs)
                     displayRobot(txs[j], tys[j])
                     displayPath(txs, tys)
-                    plt.pause(0.05)
+                    plt.pause(0.1)
                 for i in range(len(realpathx) - 1):
                     plt.plot([realpathx[i], realpathx[i + 1]], [realpathy[i], realpathy[i + 1]], color = "orange", linewidth = 2, linestyle = "-")
-                #displayObjects(objs)
                 plt.scatter(g[0], g[1], marker = "*", color = "blue", lw = 5)
-                #plt.pause(2)
-                #plt.close()
+                plt.annotate("Initial Cost: " + str(len(firstpathx)) +"\nReal Cost: " + str(len(realpathx) + len(txs)), (float(w/2), float(h/2)), color = "red", fontsize = 20, horizontalalignment = "center")
                 code = 1
                 break
-
             displayObjects(tobjs)
             displayRobot(txs[i], tys[i])
             displayPath(txs, tys)
             check = (txs[i + 2], tys[i + 2])
-            if overlapTriggered(Point(txs[i + 2], tys[i + 2]), tobjs):
+            if (overlapTriggered(Point(txs[i + 4], tys[i + 4]), tobjs) or
+                overlapTriggered(Point(txs[i + 3], tys[i + 3]), tobjs) or
+                overlapTriggered(Point(txs[i + 2], tys[i + 2]), tobjs) or
+                overlapTriggered(Point(txs[i + 1], tys[i + 1]), tobjs)):
                 curr = (txs[i], tys[i])
 
                 for j in range(0, i + 1):
                     realpathx.append(txs[j])
                     realpathy.append(tys[j])
                 break
-            plt.pause(0.05)
+            plt.pause(0.1)
         if code == 1:
             return
         newxs, newys = recalculate(w, h, curr, g, tobjs)
@@ -167,17 +170,21 @@ def trackingPath(curr, g, came_from):
     data.reverse()
     #minStep = len(data)
     return data
-  
+
 def isValid(w, h, objs, neighbor):
     check = True
     for i in range(len(objs)):
         linearring = LinearRing(list(objs[i].exterior.coords))
         if (objs[i].contains(Point(neighbor[0], neighbor[1])) or
             objs[i].touches(Point(neighbor[0], neighbor[1])) or
-            linearring.contains(Point(neighbor[0], neighbor[1]))):
+            linearring.contains(Point(neighbor[0], neighbor[1])) or
+            linearring.intersects(Point(neighbor[0], neighbor[1]))):
             check = False
             break
-    return ((check and 0 <= neighbor[0] < w) and (0 <= neighbor[1] < h))
+    return ((check and 0 < neighbor[0] < w) and (0 < neighbor[1] < h))
+
+#def isValid(w, h, objs, neighbor):
+#    return ((0 <= neighbor[0] < w) and (0 <= neighbor[1] < h))
 
 def astar(w, h, curr, g, objs):
     open_set.put(curr, 0)
@@ -213,14 +220,27 @@ def recalculate(w, h, curr, g, objs):
 
     xs = []
     ys = []
-    minPath = astar(w, h, curr, g, objs)
+    minPath = astar(w, h, curr, g, objs)   
     if minPath == []:
         return [], []
     for k in range(len(minPath)):
         xs.append(minPath[k][0])
         ys.append(minPath[k][1])
     return xs, ys
-    
+
+def notfound(objs):
+    #plt.clf()
+    plt.annotate("PATH NOT FOUND\nOR ROBOT STUCKED IN ONE OF THE OBJECTS!", (float(w/2), float(h/2)), color = "red", fontsize = 10, horizontalalignment = "center")
+    plt.xlim(0, w)
+    plt.ylim(0, h - 1)
+    plt.scatter(s[0], s[1], marker = "o", color = "green", lw = 5)
+    plt.scatter(g[0], g[1], marker = "o", color = "red", lw = 5)
+    displayObjects(objs)
+    plt.show()
+    return
+
+w, h, s, g, vl = readFromFile(filename)
+
 def main():
     objs = makeObjects(vl)
     curr = s
@@ -228,23 +248,15 @@ def main():
     ys = []
     xs, ys = recalculate(w, h, curr, g, objs)
     if xs == [] and ys == []:
-        plt.annotate("PATH NOT FOUND!", (float(w/2), float(h/2)), color = "red", fontsize = 20, horizontalalignment = "center")
-        plt.xlim(0, w)
-        plt.ylim(0, h - 1)
-        plt.scatter(s[0], s[1], marker = "o", color = "green", lw = 5)
-        plt.scatter(g[0], g[1], marker = "o", color = "red", lw = 5)
-        displayObjects(objs)
-        plt.show()
-        return
+        notfound(objs)
     else:
-        
         global firstpathx
         global firstpathy
         firstpathx = xs
         firstpathy = ys
-        anim = FuncAnimation(fig, driving(w, h, g, xs, ys, objs), frames = np.arange(0, 10), interval=200, repeat = False)
+        anim = FuncAnimation(fig, driving(w, h, g, xs, ys, objs), frames = 60, interval=20, repeat = False, blit = True)
+        #anim.save("AStar_Moving_Obstacles.html", writer = "ImageMagickWriter", dpi = 96)
         plt.show()
-        anim.save("AStar_Moving_Obstacles.html", writer = "ffmpeg", dpi = 96)
         plt.close()
         return
 
