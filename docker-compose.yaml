@@ -1,0 +1,12 @@
+services:
+  python3:
+    container_name: python3
+    build: .
+    restart: always
+    environment:
+      - DISPLAY=unix${DISPLAY}
+    volumes:
+      - ./:/app
+      - ~/.Xauthority:/tmp/.Xauthority
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    tty: true

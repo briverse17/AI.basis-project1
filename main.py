@@ -32,7 +32,7 @@ if __name__ == "__main__":
             screen_width = ITEM_WIDTH * map_width + MARGIN * map_width
             screen_height = ITEM_HEIGHT * map_height + MARGIN * map_height
 
-            gui = GUI(map, map_height, map_width, start, goal, screen_width, screen_height, "BFS")
+            gui = GUI(map, map_height, map_width, start, goal, screen_width, screen_height, "DFS")
             gui.drawMap()
             gui.ready()
 

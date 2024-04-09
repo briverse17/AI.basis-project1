@@ -7,10 +7,7 @@ from Heuristic import *
 from shapely.geometry import Point, Polygon
 from shapely.geometry.polygon import LinearRing
 
-<<<<<<< HEAD
-=======
 # A*_NPoint search algorithm
->>>>>>> 28a388fdfa2ffc44279bf9faae3722605fd7ef85
 class AStarNPoint:
     '''A* Search algorithm with N pick-up point'''
     def __init__(self, input_name = 'input1.txt'):
@@ -26,12 +23,8 @@ class AStarNPoint:
         self.pick_up_set = []
 
     def getMapInformation(self):
-<<<<<<< HEAD
         '''return the map information'''
-        return self.map, self.map_width, self.map_height, self.start, self.pick_up, self.goal
-=======
         return self.map, self.map_width, self.map_height, self.start, self.pick_up, self.goal, self.objects
->>>>>>> 28a388fdfa2ffc44279bf9faae3722605fd7ef85
 
     def getStart(self):
         return self.start
@@ -77,11 +70,8 @@ class AStarNPoint:
         self.g_score[curr] = 0
         self.f_score[curr] = self.g_score[curr] + heuristic(curr, next)
         neighbors = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
-<<<<<<< HEAD
 
-=======
         #neighbors = [(-1, 0), (0, 1), (1, 0), (0, -1)]
->>>>>>> 28a388fdfa2ffc44279bf9faae3722605fd7ef85
         while not self.open_set.empty():
             _, current = self.open_set.get()
             if current == next:
